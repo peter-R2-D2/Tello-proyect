@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
+import { getTodosApiFake } from '../services/apiFake' // Método reutilizable
 
 export default function TodoList () {
-  const API_URL = 'https://mocki.io/v1/9668e237-bded-476f-aff2-515d5019b41a'
-
   const [todos, setTodos] = useState([])
   useEffect(() => {
-    fetch(API_URL).then(res => res.json()).then(data => setTodos(data))
+    getTodosApiFake().then(setTodos)
   }, [])
+
+  if (todos.length === 0) {
+    return <h1 className='text-center'>No tienes tareas</h1>
+  } // Esto es un renderizado condicional
 
   return (
     <ul className='mt-5'>
@@ -14,7 +17,7 @@ export default function TodoList () {
         todos.map(todo => (
           <li key={todo.id}>
             {todo.name}
-          </li>
+          </li> // Esto como es un ejemplo corto no es recomendable hacer un componente para mostrar una card para cada todo
         ))
       }
     </ul>
